@@ -1,7 +1,5 @@
 Written by @duhansysl
 
-All rights reserved, you can NOT use the codes in this script without my permissions. Its only for commercial use.
-
 Big thanks to @3arthur6 who did the TWRP patches for it. I got the right HEX values from his project.
 His TWRP patcher is here : https://github.com/3arthur6/BluetoothLibraryPatcher
 

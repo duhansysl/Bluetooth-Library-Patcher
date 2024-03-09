@@ -2,8 +2,11 @@ Written by @duhansysl
 
 All rights reserved, you can NOT use the codes in this script without my permissions. Its only for commercial use.
 
-Big thanks to @3arthur6 and @PeterKnecht who did the TWRP patches for it, i got the HEX values from his repository.
+Big thanks to @3arthur6 who did the TWRP patches for it. I got the right HEX values from his project.
 His TWRP patcher is here : https://github.com/3arthur6/BluetoothLibraryPatcher
+
+And @PeterKnecht93 who helped me in this project. 
+
  
 * You can run this on Terminal with WSL2 or Linux 
 * You need to choose the right OneUI version to make it work "properly". Every android has its own HEX values so ifyou don't choose the right value it will fail or won't patch properly for sure.

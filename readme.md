@@ -12,4 +12,4 @@ And @PeterKnecht93 who helped me in this project.
 * OneUI 5/6 needs either "libbluetooth_jni.so" or "com.android.btservices.apex" so get them from your ROM base and add them into "in" folder
 * Patched lib will be copied to "lib_patched" folder and stock one will be copied to "lib_stock" folder. 
 
-* Last updated: 09.03.2024 - 22:01
+* Last updated: 10.03.2024 - 15:38

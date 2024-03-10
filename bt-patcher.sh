@@ -36,7 +36,7 @@ ONEUI6_TO=2b00001428008052
 clear
 echo "############################################################################################"
 echo
-echo "                              Bluetooth Library Patcher V1.1                                "
+echo "                              Bluetooth Library Patcher V1.2                                "
 echo "        --------------------------------------------------------------------------          "
 echo "                                  Written by @duhansysl                                     "
 echo

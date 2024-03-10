@@ -168,6 +168,20 @@ case $choice in
 			exit 1
 		fi
 		
+		if ! xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_FROM" && if ! xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_2FROM"; then
+			sleep 2.0
+			echo
+			echo "Selection: OneUI 2.X - Android 10"
+			echo "--------------------------------------------------------------------------------------"
+			echo " "
+			echo " There is no HEX value [ \"$ONEUI2_FROM\" ] or [ \"$ONEUI2_2FROM\" ] existed in & $LIBRARY_OLD."
+			echo " "
+			echo "--------------------------------------------------------------------------------------"
+			[ -d "tmp/mnt" ] && sudo umount "tmp/mnt"
+			rm -rf "tmp"			
+			exit 2
+		fi
+		
 		echo
 		echo " "
 		echo "Selection: OneUI 2.X - Android 10"			
@@ -191,20 +205,6 @@ case $choice in
 		echo " "
 		echo "------------------------------------------------------------------------------------"		
 		echo
-
-		if ! xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_FROM"; then
-			sleep 2.0
-			echo
-			echo "Selection: OneUI 2.X - Android 10"
-			echo "-------------------------------------------------------------------"
-			echo " "
-			echo " There is no HEX value [ \"$ONEUI2_FROM\" ] existed in & $LIBRARY_OLD."
-			echo " "
-			echo "-------------------------------------------------------------------"
-			[ -d "tmp/mnt" ] && sudo umount "tmp/mnt"
-			rm -rf "tmp"			
-			exit 2
-		fi
 
 		[ -d "tmp/mnt" ] && sudo umount "tmp/mnt"
 		rm -rf "tmp"

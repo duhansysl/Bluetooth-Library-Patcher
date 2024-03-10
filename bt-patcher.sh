@@ -168,15 +168,15 @@ case $choice in
 			exit 1
 		fi
 		
-		if ! xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_FROM" && if ! xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_2FROM"; then
+		if ! xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_FROM" && ! xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_2FROM"; then
 			sleep 2.0
 			echo
 			echo "Selection: OneUI 2.X - Android 10"
-			echo "--------------------------------------------------------------------------------------"
+			echo "-----------------------------------------------------------------------------------------------"
 			echo " "
 			echo " There is no HEX value [ \"$ONEUI2_FROM\" ] or [ \"$ONEUI2_2FROM\" ] existed in & $LIBRARY_OLD."
 			echo " "
-			echo "--------------------------------------------------------------------------------------"
+			echo "-----------------------------------------------------------------------------------------------"
 			[ -d "tmp/mnt" ] && sudo umount "tmp/mnt"
 			rm -rf "tmp"			
 			exit 2
@@ -185,20 +185,22 @@ case $choice in
 		echo
 		echo " "
 		echo "Selection: OneUI 2.X - Android 10"			
-		echo "----------------------------------"
-		echo "Patching [ \"$ONEUI2_FROM\" ] HEX code to [ \"$ONEUI2_TO\" ] in $LIBRARY_OLD"
-		echo " "
-		echo
 		sleep 2.0
 		
 		if  xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_FROM"; then 
+			echo "----------------------------------"
+			echo "Patching [ \"$ONEUI2_FROM\" ] HEX code to [ \"$ONEUI2_TO\" ] in $LIBRARY_OLD"
 			xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | sed "s/$ONEUI2_FROM/$ONEUI2_TO/" | xxd -r -p > lib_patched/$LIBRARY_OLD
 		fi
 		
 		if  xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_2FROM"; then 
+			echo "----------------------------------"
+			echo "Patching [ \"$ONEUI2_2FROM\" ] HEX code to [ \"$ONEUI2_2TO\" ] in $LIBRARY_OLD"
 			xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | sed "s/$ONEUI2_2FROM/$ONEUI2_2TO/" | xxd -r -p > lib_patched/$LIBRARY_OLD
 		fi			
 		
+		echo
+		echo
 		echo "------------------------------------------------------------------------------------"		
 		echo " "
 		echo "Succesfully patched [ $LIBRARY_OLD ] & copied it to lib_patched folder."

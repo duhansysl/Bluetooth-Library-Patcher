@@ -9,8 +9,10 @@ LIBRARY="libbluetooth_jni.so"
 LIBRARY_OLD="libbluetooth.so"
 ONEUI1_FROM=88000034e8030032
 ONEUI1_TO=1f2003d5e8031f2a
-ONEUI2_FROM=....0034f3031f2af4031f2a....0014
-ONEUI2_TO=1f2003d5f3031f2af4031f2a47000014
+ONEUI2_FROM=........f4031f2af3031f2ae8030032
+ONEUI2_TO=1f2003d5f4031f2af3031f2ae8031f2a
+ONEUI2_2FROM=....0034f3031f2af4031f2a....0014
+ONEUI2_2TO=1f2003d5f3031f2af4031f2a47000014
 ONEUI3_FROM=........f3031f2af4031f2a3e
 ONEUI3_TO=1f2003d5f3031f2af4031f2a3e
 ONEUI4_FROM=........f9031f2af3031f2a41
@@ -151,6 +153,44 @@ case $choice in
 			rm -rf "tmp"				
 			exit 0
 		fi
+		
+		if xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_2TO"; then
+			sleep 2.0
+			echo
+			echo "Selection: OneUI 2.X - Android 10"
+			echo "-------------------------------------------------------------------"
+			echo " "
+			echo "[ \"$ONEUI2_2TO\ ] HEX patch is already applied in library."
+			echo " "
+			echo "-------------------------------------------------------------------"	
+			[ -d "tmp/mnt" ] && sudo umount "tmp/mnt"
+			rm -rf "tmp"				
+			exit 1
+		fi
+		
+		echo
+		echo " "
+		echo "Selection: OneUI 2.X - Android 10"			
+		echo "----------------------------------"
+		echo "Patching [ \"$ONEUI2_FROM\" ] HEX code to [ \"$ONEUI2_TO\" ] in $LIBRARY_OLD"
+		echo " "
+		echo
+		sleep 2.0
+		
+		if  xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_FROM"; then 
+			xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | sed "s/$ONEUI2_FROM/$ONEUI2_TO/" | xxd -r -p > lib_patched/$LIBRARY_OLD
+		fi
+		
+		if  xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_2FROM"; then 
+			xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | sed "s/$ONEUI2_2FROM/$ONEUI2_2TO/" | xxd -r -p > lib_patched/$LIBRARY_OLD
+		fi			
+		
+		echo "------------------------------------------------------------------------------------"		
+		echo " "
+		echo "Succesfully patched [ $LIBRARY_OLD ] & copied it to lib_patched folder."
+		echo " "
+		echo "------------------------------------------------------------------------------------"		
+		echo
 
 		if ! xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | grep -q "$ONEUI2_FROM"; then
 			sleep 2.0
@@ -163,24 +203,8 @@ case $choice in
 			echo "-------------------------------------------------------------------"
 			[ -d "tmp/mnt" ] && sudo umount "tmp/mnt"
 			rm -rf "tmp"			
-			exit 1
+			exit 2
 		fi
-
-		echo
-		echo " "
-		echo "Selection: OneUI 2.X - Android 10"
-		echo "----------------------------------"
-		echo "Patching [ \"$ONEUI2_FROM\" ] HEX code to [ \"$ONEUI2_TO\" ] in $LIBRARY_OLD"
-		echo " "
-		echo
-		sleep 2.0
-		xxd -p "tmp/$LIBRARY_OLD" | tr -d \\n | tr -d " " | sed "s/$ONEUI2_FROM/$ONEUI2_TO/" | xxd -r -p > lib_patched/$LIBRARY_OLD
-		echo "------------------------------------------------------------------------------------"		
-		echo " "
-		echo "Succesfully patched [ $LIBRARY_OLD ] & copied it to lib_patched folder."
-		echo " "
-		echo "------------------------------------------------------------------------------------"		
-		echo
 
 		[ -d "tmp/mnt" ] && sudo umount "tmp/mnt"
 		rm -rf "tmp"

@@ -11,5 +11,6 @@ And @PeterKnecht93 who helped me in this project.
 * OneUI 1/2/3/4 needs "libbluetooth.so", take it from lib64 folder and put it in "in" folder
 * OneUI 5/6 needs either "libbluetooth_jni.so" or "com.android.btservices.apex" so get them from your ROM base and add them into "in" folder
 * Patched lib will be copied to "lib_patched" folder and stock one will be copied to "lib_stock" folder. 
+* OneUI 7 does NOT require any mods anymore, don't worry if you don't see it in the list.
 
-* Last updated: 10.03.2024 - 15:38
+* Last updated: 17.01.2025 - 14.56

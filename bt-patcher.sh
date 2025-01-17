@@ -67,7 +67,7 @@ read -p "Please make your choice (1-6): " choice
 if [[ "$choice" =~ ^[1-6]$ ]]; then
     array_number=$((choice - 1))
     library="libbluetooth.so"
-    [[ $choice -ge 3 ]] && library="libbluetooth_jni.so"
+    [[ $choice -ge 5 ]] && library="libbluetooth_jni.so"
 else
 	echo 
 	echo "-----------------------------------"

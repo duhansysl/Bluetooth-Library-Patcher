@@ -35,6 +35,7 @@ choice=(
 "OneUI 4.X - Android 12" 
 "OneUI 5.X - Android 13" 
 "OneUI 6.X - Android 14" 
+"OneUI 7.X - Android 15"
 )
 stock_hex=(
 "88000034e8030032" 						# OneUI 1 stock
@@ -43,6 +44,7 @@ stock_hex=(
 "........f9031f2af3031f2a41" 			# OneUI 4 stock
 "6804003528008052" 						# OneUI 5 stock
 "6804003528008052" 						# OneUI 6 stock
+"480500352800805228cb1e39"				# OneUI 7 stock
 )
 patched_hex=(
 "1f2003d5e8031f2a" 						# OneUI 1 patched
@@ -51,6 +53,7 @@ patched_hex=(
 "1f2003d5f9031f2af3031f2a48" 			# OneUI 4 patched
 "2a00001428008052" 						# OneUI 5 patched
 "2b00001428008052" 						# OneUI 6 patched
+"2a0000142800805228cb1e39"				# OneUI 7 patched
 )
 
 if ! [ -e "in" ]; then
@@ -82,11 +85,12 @@ echo "	3. OneUI 3.X - Android 11"
 echo "	4. OneUI 4.X - Android 12"
 echo "	5. OneUI 5.X - Android 13"
 echo "	6. OneUI 6.X - Android 14"
+echo "	7. OneUI 7.X - Android 15"
 echo
 
-read -p "Please make your choice (1-6): " choice
+read -p "Please make your choice (1-7): " choice
 
-if [[ "$choice" =~ ^[1-6]$ ]]; then
+if [[ "$choice" =~ ^[1-7]$ ]]; then
     array_number=$((choice - 1))
     library="libbluetooth.so"
     [[ $choice -ge 5 ]] && library="libbluetooth_jni.so"

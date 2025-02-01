@@ -27,9 +27,31 @@
 #
 
 apex="com.android.btservices.apex"
-choice=("OneUI 1.X - Android 9" "OneUI 2.X - Android 10" "OneUI 3.X - Android 11" "OneUI 4.X - Android 12" "OneUI 5.X - Android 13" "OneUI 6.X - Android 14")
-stock_hex=("88000034e8030032" "........f4031f2af3031f2ae8030032" "........f3031f2af4031f2a3e" "........f9031f2af3031f2a41" "6804003528008052" "6804003528008052" "....0034f3031f2af4031f2a....0014")
-patched_hex=("1f2003d5e8031f2a" "1f2003d5f4031f2af3031f2ae8031f2a" "1f2003d5f3031f2af4031f2a3e" "1f2003d5f9031f2af3031f2a48" "2a00001428008052" "2b00001428008052" "1f2003d5f3031f2af4031f2a47000014")
+
+choice=(
+"OneUI 1.X - Android 9" 
+"OneUI 2.X - Android 10" 
+"OneUI 3.X - Android 11" 
+"OneUI 4.X - Android 12" 
+"OneUI 5.X - Android 13" 
+"OneUI 6.X - Android 14" 
+)
+stock_hex=(
+"88000034e8030032" 						# OneUI 1 stock
+"........f4031f2af3031f2ae8030032" 		# OneUI 2 stock
+"........f3031f2af4031f2a3e" 			# OneUI 3 stock
+"........f9031f2af3031f2a41" 			# OneUI 4 stock
+"6804003528008052" 						# OneUI 5 stock
+"6804003528008052" 						# OneUI 6 stock
+)
+patched_hex=(
+"1f2003d5e8031f2a" 						# OneUI 1 patched
+"1f2003d5f4031f2af3031f2ae8031f2a" 		# OneUI 2 patched
+"1f2003d5f3031f2af4031f2a3e" 			# OneUI 3 patched
+"1f2003d5f9031f2af3031f2a48" 			# OneUI 4 patched
+"2a00001428008052" 						# OneUI 5 patched
+"2b00001428008052" 						# OneUI 6 patched
+)
 
 if ! [ -e "in" ]; then
 	mkdir in
@@ -42,13 +64,13 @@ if ! [ -e "lib_patched" ]; then
 fi
 
 clear
-echo "############################################################################################"
+echo "============================================================================================"
 echo
 echo "                              Bluetooth Library Patcher V2.0                                "
 echo "        --------------------------------------------------------------------------          "
 echo "                                  Written by @duhansysl                                     "
 echo
-echo "############################################################################################"
+echo "============================================================================================"
 echo
 echo "Put bluetooth lib or bt-apex img to /in folder"
 echo
@@ -99,9 +121,9 @@ fi
 
 if [[ "$choice" == "2" ]]; then
     echo "\nSelection: ${choice[$array_number]}"
-    if xxd -p "tmp/$library" | tr -d '\n' | grep -q "${stock_hex[6]}"; then
-        stock_hex_value="${stock_hex[6]}"
-        patched_hex_value="${patched_hex[6]}"
+    if xxd -p "tmp/$library" | tr -d '\n' | grep -q "....0034f3031f2af4031f2a....0014"; then
+        stock_hex_value="....0034f3031f2af4031f2a....0014"
+        patched_hex_value="1f2003d5f3031f2af4031f2a47000014"
     else
         stock_hex_value="${stock_hex[1]}"
         patched_hex_value="${patched_hex[1]}"

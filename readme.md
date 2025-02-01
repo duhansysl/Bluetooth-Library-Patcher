@@ -9,8 +9,7 @@ And @PeterKnecht93 who helped me in this project.
 * You can run this on Terminal with WSL2 or Linux 
 * You need to choose the right OneUI version to make it work "properly". Every android has its own HEX values so if you don't choose the right value it will fail or won't patch properly for sure.
 * OneUI 1/2/3/4 needs "libbluetooth.so", take it from lib64 folder and put it in "in" folder
-* OneUI 5/6 needs either "libbluetooth_jni.so" or "com.android.btservices.apex" so get them from your ROM base and add them into "in" folder
+* OneUI 5/6/7 needs either "libbluetooth_jni.so" or "com.android.btservices.apex" so get them from your ROM base and add them into "in" folder
 * Patched lib will be copied to "lib_patched" folder and stock one will be copied to "lib_stock" folder. 
-* OneUI 7 does NOT require any mods anymore, don't worry if you don't see it in the list.
 
-* Last updated: 17.01.2025 - 14.56
+* Last updated: 01.02.2025 - 21:20

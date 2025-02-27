@@ -2,7 +2,7 @@
 #
 # ======================================================================
 #
-#  Duhan's Kitchen V2.1
+#  Duhan's Kitchen V3.0
 #
 #  Copyright (C) 2025 duhansysl
 #  Copyright (C) 2024 3arthur6
@@ -67,6 +67,15 @@ if ! [ -e "lib_patched" ]; then
 fi
 
 clear
+sleep 0.5
+echo " "
+echo; read -p " Please enter your sudo password properly: " pass
+sudo -S <<< "$pass"
+echo " "
+clear
+sleep 0.5
+
+clear
 echo "============================================================================================"
 echo
 echo "                              Bluetooth Library Patcher V2.1                                "
@@ -106,10 +115,10 @@ fi
 
 if [[ -f "in/$apex" ]]; then
     unzip -qj "in/$apex" "apex_payload.img" -d "tmp"
-    mkdir -p tmp/mnt && sudo mount -o ro "tmp/apex_payload.img" "tmp/mnt"
+    mkdir -p tmp/mnt && sudo -S <<< "$pass" mount -o ro "tmp/apex_payload.img" "tmp/mnt"
     cp "tmp/mnt/lib64/$library" "tmp"
     cp "tmp/mnt/lib64/$library" "lib_stock"
-    sudo umount "tmp/mnt"
+    sudo -S <<< "$pass" umount "tmp/mnt"
 elif [[ -f "in/$library" ]]; then
     cp "in/$library" "tmp/$library"
     cp "in/$library" "lib_stock"
@@ -140,7 +149,7 @@ fi
 if xxd -p "tmp/$library" | tr -d '\n' | grep -q "$patched_hex_value"; then
 	echo "-------------------------------------------------------------------"
 	echo " "
-    echo "[ $patched_hex_value ] HEX patch is already applied in $library."
+    echo " [ $patched_hex_value ] HEX patch is already applied in $library."
 	echo " "
 	echo "-------------------------------------------------------------------"	
     rm -rf tmp
@@ -150,7 +159,7 @@ fi
 if ! xxd -p "tmp/$library" | tr -d '\n' | grep -q "$stock_hex_value"; then
 	echo "-------------------------------------------------------------------"
 	echo " "
-    echo "There is no HEX value [ $stock_hex_value ] in $library."
+    echo " There is no HEX value [ $stock_hex_value ] in $library."
 	echo " "
 	echo "-------------------------------------------------------------------"
     rm -rf tmp
@@ -161,14 +170,14 @@ echo
 echo " "
 echo "Selection: ${choice[$array_number]}"
 echo "----------------------------------"
-echo "Patching [ ${stock_hex[$array_number]} ] HEX code to [ ${patched_hex[$array_number]} ] in $library"
+echo " Patching [ ${stock_hex[$array_number]} ] HEX code to [ ${patched_hex[$array_number]} ] in $library"
 echo " "
 echo
 sleep 2.0
 xxd -p "tmp/$library" | tr -d '\n' | sed "s/$stock_hex_value/$patched_hex_value/" | xxd -r -p > "lib_patched/$library"
 echo "------------------------------------------------------------------------------------"		
 echo " "
-echo "Successfully patched [ $library ] & copied it to lib_patched folder."
+echo " Successfully patched [ $library ] & copied it to lib_patched folder."
 echo " "
 echo "------------------------------------------------------------------------------------"		
 echo

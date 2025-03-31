@@ -59,6 +59,9 @@ patched_hex=(
 if ! [ -e "in" ]; then
 	mkdir in
 fi
+if ! [ -e "tmp" ]; then
+ 	mkdir tmp
+fi
 if ! [ -e "lib_stock" ]; then
 	mkdir lib_stock
 fi

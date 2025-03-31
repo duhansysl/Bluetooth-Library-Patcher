@@ -81,7 +81,7 @@ sleep 0.5
 clear
 echo "============================================================================================"
 echo
-echo "                              Bluetooth Library Patcher V2.1                                "
+echo "                              Bluetooth Library Patcher V2.2                                "
 echo "        ---------------------------------------------------------------------------         "
 echo "                                  Written by @duhansysl                                     "
 echo

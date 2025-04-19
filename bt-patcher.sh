@@ -6,7 +6,6 @@
 #
 #  Copyright (C) 2025 duhansysl
 #  Copyright (C) 2024 3arthur6
-#  Copyright (C) 2024 PeterKnecht93
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -26,162 +25,156 @@
 # shellcheck disable=SC2012,SC2024,SC2144
 #
 
+# ======================================================================================================
+# ================================== Function HEX Values - Assignments =================================
+# ======================================================================================================
+
+bt_old="libbluetooth.so"
+bt_new="libbluetooth_jni.so"
 apex="com.android.btservices.apex"
 
-choice=(
-"OneUI 1.X - Android 9" 
-"OneUI 2.X - Android 10" 
-"OneUI 3.X - Android 11" 
-"OneUI 4.X - Android 12" 
-"OneUI 5.X - Android 13" 
-"OneUI 6.X - Android 14" 
-"OneUI 7.X - Android 15"
-)
-stock_hex=(
-"88000034e8030032" 						# OneUI 1 stock
-"........f4031f2af3031f2ae8030032" 		# OneUI 2 stock
-"........f3031f2af4031f2a3e" 			# OneUI 3 stock
-"........f9031f2af3031f2a41" 			# OneUI 4 stock
-"6804003528008052" 						# OneUI 5 stock
-"6804003528008052" 						# OneUI 6 stock
-"480500352800805228cb1e39"				# OneUI 7 stock
-)
-patched_hex=(
-"1f2003d5e8031f2a" 						# OneUI 1 patched
-"1f2003d5f4031f2af3031f2ae8031f2a" 		# OneUI 2 patched
-"1f2003d5f3031f2af4031f2a3e" 			# OneUI 3 patched
-"1f2003d5f9031f2af3031f2a48" 			# OneUI 4 patched
-"2a00001428008052" 						# OneUI 5 patched
-"2b00001428008052" 						# OneUI 6 patched
-"2a0000142800805228cb1e39"				# OneUI 7 patched
-)
+s_1=("88000034e8030032")
+s_2=("....0034f3031f2af4031f2a....0014" "........f4031f2af3031f2ae8030032")
+s_3=("........f3031f2af4031f2a3e")
+s_4=("........f9031f2af3031f2a41")
+s_5=("6804003528008052")
+s_6=("6804003528008052")
+s_7=("480500352800805228cb1e39" "4805003528008052284b1e39")
 
-if ! [ -e "in" ]; then
-	mkdir in
-fi
-if ! [ -e "tmp" ]; then
- 	mkdir tmp
-fi
-if ! [ -e "lib_stock" ]; then
-	mkdir lib_stock
-fi
-if ! [ -e "lib_patched" ]; then
-	mkdir lib_patched
-fi
+p_1=("1f2003d5e8031f2a")
+p_2=("1f2003d5f3031f2af4031f2a47000014" "1f2003d5f4031f2af3031f2ae8031f2a")
+p_3=("1f2003d5f3031f2af4031f2a3e")
+p_4=("1f2003d5f9031f2af3031f2a48")
+p_5=("2a00001428008052")
+p_6=("2b00001428008052")
+p_7=("2a0000142800805228cb1e39" "2a00001428008052284b1e39")
 
-clear
-sleep 0.5
-echo " "
-echo; read -p " Please enter your sudo password properly: " pass
-sudo -S <<< "$pass"
-echo " "
-clear
-sleep 0.5
+# ======================================================================================================
+# ================================== Creating Workarea =================================================
+# ======================================================================================================
 
-clear
-echo "============================================================================================"
-echo
-echo "                              Bluetooth Library Patcher V2.2                                "
-echo "        ---------------------------------------------------------------------------         "
-echo "                                  Written by @duhansysl                                     "
-echo
-echo "============================================================================================"
-echo
-echo "Put bluetooth lib or bt-apex img to /in folder"
-echo
-echo "Warning! This selection is important for applying right HEX values, so choose the right version."
-echo
-echo "	1. OneUI 1.X - Android 9"
-echo "	2. OneUI 2.X - Android 10"
-echo "	3. OneUI 3.X - Android 11"
-echo "	4. OneUI 4.X - Android 12"
-echo "	5. OneUI 5.X - Android 13"
-echo "	6. OneUI 6.X - Android 14"
-echo "	7. OneUI 7.X - Android 15"
-echo
+	if ! [ -e "in" ] || ! [ -e "lib_stock" ] || ! [ -e "lib_patched" ]; then
+		clear; sleep 0.5
+		echo; echo; echo " --> ⛔ ERROR: Needed folders were not created before. Run script again!"
+		echo; echo
+		mkdir -p "in" "lib_stock" "lib_patched"
+		exit
+	fi 
+	rm -fr lib_stock/* lib_patched/*
+	if [ -e "in/$bt_old" ] && [ -e "in/$apex" ] || [ -e "in/$bt_new" ] && [ -e "in/$apex" ]|| [ -e "in/$bt_old" ] && [ -e "in/$bt_new" ]; then
+		clear; sleep 0.5
+		echo; echo; echo " --> ⛔ ERROR: Put either bluetooth library or apex IMG to in folder!"
+		echo " --> ⚠️ WARNING: Only put one file."
+		echo; echo
+		exit
+	fi	
 
-read -p "Please make your choice (1-7): " choice
-
-if [[ "$choice" =~ ^[1-7]$ ]]; then
-    array_number=$((choice - 1))
-    library="libbluetooth.so"
-    [[ $choice -ge 5 ]] && library="libbluetooth_jni.so"
-else
+# ======================================================================================================
+# ================================== User Interface ====================================================
+# ======================================================================================================
+ 
+	clear; sleep 0.5; echo; read -p " --> Please enter your sudo password properly: " pass
+	clear
+	sleep 0.5
+	echo "============================================================================================"
 	echo 
-	echo "-----------------------------------"
-	echo " "	
-    echo " ERROR: Invalid choice. Exiting."
-	echo " "
-	echo "-----------------------------------"		
-    exit 1
-fi
-
-if [[ -f "in/$apex" ]]; then
-    unzip -qj "in/$apex" "apex_payload.img" -d "tmp"
-    mkdir -p tmp/mnt && sudo -S <<< "$pass" mount -o ro "tmp/apex_payload.img" "tmp/mnt"
-    cp "tmp/mnt/lib64/$library" "tmp"
-    cp "tmp/mnt/lib64/$library" "lib_stock"
-    sudo -S <<< "$pass" umount "tmp/mnt"
-elif [[ -f "in/$library" ]]; then
-    cp "in/$library" "tmp/$library"
-    cp "in/$library" "lib_stock"
-else
+	echo "                         Welcome to Duhan's Kitchen - Version 3.0                           "
+	echo "        --------------------------------------------------------------------------          "
+	echo "                    Bluetooth Library Patcher v3.0 - OneUI 1/2/3/4/5/6/7                    "
 	echo
-	echo "-----------------------------------------------------------------------------------------------"
-	echo " "
-    echo "ERROR: Neither $apex nor $library found in the 'in' directory."
-	echo " "
-	echo "-----------------------------------------------------------------------------------------------"	
-    exit 1
-fi
+	echo "============================================================================================"
+	sleep 0.5
+	echo
+	echo "Put bluetooth lib or bt-apex img to /in folder"
+	echo
+	echo "Warning! This selection is important for applying right HEX values, choose the right version"
+	echo
+	echo "	1. OneUI 1.X - Android 9"
+	echo "	2. OneUI 2.X - Android 10"
+	echo "	3. OneUI 3.X - Android 11"
+	echo "	4. OneUI 4.X - Android 12"
+	echo "	5. OneUI 5.X - Android 13"
+	echo "	6. OneUI 6.X - Android 14"
+	echo "	7. OneUI 7.X - Android 15"
+	echo
+	read -p "Please make your choice (1-7): " choice
+	
+# ======================================================================================================
+# ================================== Processing ========================================================
+# ======================================================================================================
 
-if [[ "$choice" == "2" ]]; then
-    echo "\nSelection: ${choice[$array_number]}"
-    if xxd -p "tmp/$library" | tr -d '\n' | grep -q "....0034f3031f2af4031f2a....0014"; then
-        stock_hex_value="....0034f3031f2af4031f2a....0014"
-        patched_hex_value="1f2003d5f3031f2af4031f2a47000014"
-    else
-        stock_hex_value="${stock_hex[1]}"
-        patched_hex_value="${patched_hex[1]}"
-    fi
-else
-    stock_hex_value="${stock_hex[$array_number]}"
-    patched_hex_value="${patched_hex[$array_number]}"
-fi
+	if [[ "$choice" =~ ^[1-4]$ ]]; then
+		library="$bt_old"
+		mkdir -p "tmp/mnt"
+		if [[ -f "in/$apex" ]]; then
+			unzip -qj "in/$apex" "apex_payload.img" -d "tmp"
+			sudo -S <<< "$pass" mount -o ro "tmp/apex_payload.img" "tmp/mnt" 2>/dev/null
+			cp "tmp/mnt/lib64/$library" "tmp"; cp "tmp/mnt/lib64/$library" "lib_stock"
+			sudo -S <<< "$pass" umount "tmp/mnt" 2>/dev/null
+		elif [[ -f "in/$library" ]]; then
+			cp "in/$library" "tmp/$library"; cp "in/$library" "lib_stock"
+		else
+			echo; echo " --> ⛔ ERROR: Neither $apex nor $library found in the 'in' directory."
+			echo
+			exit 1
+		fi
+	elif [[ "$choice" =~ ^[5-7]$ ]]; then
+		library="$bt_new"
+		mkdir -p "tmp/mnt"
+		if [[ -f "in/$apex" ]]; then
+			unzip -qj "in/$apex" "apex_payload.img" -d "tmp"
+			sudo -S <<< "$pass" mount -o ro "tmp/apex_payload.img" "tmp/mnt" 2>/dev/null
+			cp "tmp/mnt/lib64/$library" "tmp"; cp "tmp/mnt/lib64/$library" "lib_stock"
+			sudo -S <<< "$pass" umount "tmp/mnt" 2>/dev/null
+		elif [[ -f "in/$library" ]]; then
+			cp "in/$library" "tmp/$library"; cp "in/$library" "lib_stock"
+		else
+			echo; echo " --> ⛔ ERROR: Neither $apex nor $library found in the 'in' directory."
+			echo
+			exit 1
+		fi
+	else
+		echo; echo " --> ⛔ ERROR: Invalid choice. Exiting."
+		echo
+		exit 1
+	fi
+	
+# ======================================================================================================
+# ================================== HEX Patch Application =============================================
+# ======================================================================================================
 
-if xxd -p "tmp/$library" | tr -d '\n' | grep -q "$patched_hex_value"; then
-	echo "-------------------------------------------------------------------"
-	echo " "
-    echo " [ $patched_hex_value ] HEX patch is already applied in $library."
-	echo " "
-	echo "-------------------------------------------------------------------"	
-    rm -rf tmp
-    exit 0
-fi
+s_var="s_$choice[@]"
+p_var="p_$choice[@]"
+s_arr=("${!s_var}")
+p_arr=("${!p_var}")
 
-if ! xxd -p "tmp/$library" | tr -d '\n' | grep -q "$stock_hex_value"; then
-	echo "-------------------------------------------------------------------"
-	echo " "
-    echo " There is no HEX value [ $stock_hex_value ] in $library."
-	echo " "
-	echo "-------------------------------------------------------------------"
-    rm -rf tmp
-    exit 1
-fi
+	echo; echo " --> Patching started..."
+	hex_dump=$(xxd -p "tmp/$library" | tr -d '\n')
+	patched=false
 
-echo
-echo " "
-echo "Selection: ${choice[$array_number]}"
-echo "----------------------------------"
-echo " Patching [ ${stock_hex[$array_number]} ] HEX code to [ ${patched_hex[$array_number]} ] in $library"
-echo " "
-echo
-sleep 2.0
-xxd -p "tmp/$library" | tr -d '\n' | sed "s/$stock_hex_value/$patched_hex_value/" | xxd -r -p > "lib_patched/$library"
-echo "------------------------------------------------------------------------------------"		
-echo " "
-echo " Successfully patched [ $library ] & copied it to lib_patched folder."
-echo " "
-echo "------------------------------------------------------------------------------------"		
-echo
-rm -rf tmp
+	for i in "${!s_arr[@]}"; do
+		sig="${s_arr[$i]}"
+		patch="${p_arr[$i]}"
+		sig_regex=$(echo "$sig" | sed -E 's/\.\.\.\./[0-9a-f]{4}/g' | sed -E 's/\.\.\./[0-9a-f]{3}/g' | sed -E 's/\.\./[0-9a-f]{2}/g' | sed -E 's/\./[0-9a-f]/g')
+
+		if echo "$hex_dump" | grep -qE "$patch"; then
+			echo " --> Checking HEX '$sig': Already patched."
+		elif echo "$hex_dump" | grep -qE "$sig_regex"; then
+			echo " --> Checking HEX '$sig': Match found, applying patch..."
+			hex_dump=$(echo "$hex_dump" | sed -E "s/$sig_regex/$patch/")
+			patched=true
+		else
+			echo " --> Checking HEX '$sig': Not found. Skipped."
+		fi
+	done
+
+	if [ "$patched" = true ]; then
+		echo "$hex_dump" | xxd -r -p > "lib_patched/$library"
+		echo; echo " --> ✅ SUCCESS: Patch applied successfully. File saved to lib_patched/$library"
+		echo
+	else
+		echo; echo " --> ⚠️ No patch changes were made to the file."
+		echo
+	fi
+	
+	rm -rf tmp

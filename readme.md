@@ -1,9 +1,7 @@
-Written by @duhansysl
+Originally coded and written By @duhansysl
 
 Big thanks to @3arthur6 who did the TWRP patches for it. I got the right HEX values from his project.
 His TWRP patcher is here : https://github.com/3arthur6/BluetoothLibraryPatcher
-
-And @PeterKnecht93 who helped me in this project. 
 
  
 * You can run this on Terminal with WSL2 or Linux 
@@ -12,4 +10,4 @@ And @PeterKnecht93 who helped me in this project.
 * OneUI 5/6/7 needs either "libbluetooth_jni.so" or "com.android.btservices.apex" so get them from your ROM base and add them into "in" folder
 * Patched lib will be copied to "lib_patched" folder and stock one will be copied to "lib_stock" folder. 
 
-* Last updated: 01.02.2025 - 21:20
+* Last updated: 19.04.2025 - 16:00

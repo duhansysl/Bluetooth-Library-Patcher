@@ -80,7 +80,7 @@ p_7=("2a0000142800805228cb1e39" "2a00001428008052284b1e39")
 	echo 
 	echo "                         Welcome to Duhan's Kitchen - Version 3.0                           "
 	echo "        --------------------------------------------------------------------------          "
-	echo "                    Bluetooth Library Patcher v3.0 - OneUI 1/2/3/4/5/6/7                    "
+	echo "                    Bluetooth Library Patcher V3.0 - OneUI 1/2/3/4/5/6/7                    "
 	echo
 	echo "============================================================================================"
 	sleep 0.5

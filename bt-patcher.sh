@@ -53,6 +53,50 @@ p_7=("2a0000142800805228cb1e39" "2a00001428008052284b1e39")
 # ================================== Creating Workarea =================================================
 # ======================================================================================================
 
+	if ! dpkg-query -W -f='${Status}' xxd  | grep "ok installed"; then 
+		clear; echo; echo
+		echo " --> ⛔ ERROR: xxd is missing and is required for HEX patches."
+		echo; echo; read -p " --> Do you want to install xxd? This requires sudo privileges. (y/n) > " INSTALL_XXD
+		echo; echo
+		if [ "$INSTALL_XXD" = "y" ]; then
+			echo " --> Installing xxd..."
+			sudo apt update
+			sudo apt install -y xxd
+			if ! dpkg-query -W -f='${Status}' xxd | grep "ok installed"; then
+				echo " --> ⛔ ERROR: Failed to install xxd. Please try installing it manually."
+				exit 0;
+			else
+				echo " --> ✅ SUCCESS: xxd installed succesfully. Now run the script again"
+				exit 0;		
+			fi
+		else
+			echo " --> ⚠️ WARNING: Please install xxd with sudo apt install xxd and try again."
+			exit 0;
+		fi
+	fi
+	
+	if ! dpkg-query -W -f='${Status}' unzip  | grep "ok installed"; then 
+		clear; echo; echo
+		echo " --> ⛔ ERROR: unzip is missing and is required for extracting library from apex image."
+		echo; echo; read -p " --> Do you want to install unzip? This requires sudo privileges. (y/n) > " INSTALL_UNZIP
+		echo; echo
+		if [ "$INSTALL_UNZIP" = "y" ]; then
+			echo " --> Installing unzip..."
+			sudo apt update
+			sudo apt install -y unzip
+			if ! dpkg-query -W -f='${Status}' unzip | grep "ok installed"; then
+				echo " --> ⛔ ERROR: Failed to install unzip. Please try installing it manually."
+				exit 0;
+			else
+				echo " --> ✅ SUCCESS: unzip installed succesfully. Now run the script again"
+				exit 0;		
+			fi
+		else
+			echo " --> ⚠️ WARNING: Please install unzip with sudo apt install unzip and try again."
+			exit 0;
+		fi
+	fi
+
 	if ! [ -e "in" ] || ! [ -e "lib_stock" ] || ! [ -e "lib_patched" ]; then
 		clear; sleep 0.5
 		echo; echo; echo " --> ⛔ ERROR: Needed folders were not created before. Run script again!"

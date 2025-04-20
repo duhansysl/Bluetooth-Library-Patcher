@@ -129,9 +129,9 @@ p_7=("2a0000142800805228cb1e39" "2a00001428008052284b1e39")
 	echo "============================================================================================"
 	sleep 0.5
 	echo
-	echo "Put bluetooth lib or bt-apex img to /in folder"
+	echo " ⚠️ WARNING: Put bluetooth lib or bt-apex img to /in folder"
 	echo
-	echo "Warning! This selection is important for applying right HEX values, choose the right version"
+	echo " ⚠️ WARNING: This selection is important for applying right HEX values, choose the right version"
 	echo
 	echo "	1. OneUI 1.X - Android 9"
 	echo "	2. OneUI 2.X - Android 10"
@@ -217,7 +217,7 @@ p_arr=("${!p_var}")
 		echo; echo " --> ✅ SUCCESS: Patch applied successfully. File saved to lib_patched/$library"
 		echo
 	else
-		echo; echo " --> ⚠️ No patch changes were made to the file."
+		echo; echo " --> ⚠️ WARNING: No patch changes were made to the file."
 		echo
 	fi
 	

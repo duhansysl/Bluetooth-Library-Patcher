@@ -58,7 +58,7 @@ p_7=("2a0000142800805228cb1e39" "2a00001428008052284b1e39")
 		PACKAGE_NAME="$1"
 		PACKAGE_DESC="$2"
 
-		if  dpkg-query -W -f='${Status}' "$PACKAGE_NAME" 2>/dev/null | grep -q "ok installed"; then 
+		if ! dpkg-query -W -f='${Status}' "$PACKAGE_NAME" 2>/dev/null | grep -q "ok installed"; then 
 			clear; echo; echo
 			echo " --> ⛔ ERROR: $PACKAGE_NAME is missing and is required for $PACKAGE_DESC."
 			echo

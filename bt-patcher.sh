@@ -3,6 +3,7 @@
 # ======================================================================
 #
 #  Duhan's Kitchen V3.0
+#  Bluetooth Library Patcher V3.1
 #
 #  Copyright (C) 2025 duhansysl
 #  Copyright (C) 2024 3arthur6
@@ -122,9 +123,9 @@ p_7=("2a0000142800805228cb1e39" "2a00001428008052284b1e39")
 	sleep 0.5
 	echo "============================================================================================"
 	echo 
-	echo "                         Welcome to Duhan's Kitchen - Version 3.0                           "
+	echo "                               Welcome to Duhan's Kitchen                                   "
 	echo "        --------------------------------------------------------------------------          "
-	echo "                    Bluetooth Library Patcher V3.0 - OneUI 1/2/3/4/5/6/7                    "
+	echo "                    Bluetooth Library Patcher V3.1 - OneUI 1/2/3/4/5/6/7                    "
 	echo
 	echo "============================================================================================"
 	sleep 0.5

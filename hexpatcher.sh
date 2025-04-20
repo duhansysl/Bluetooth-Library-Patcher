@@ -54,49 +54,44 @@ p_7=("2a0000142800805228cb1e39" "2a00001428008052284b1e39")
 # ================================== Creating Workarea =================================================
 # ======================================================================================================
 
-	if ! dpkg-query -W -f='${Status}' xxd  | grep "ok installed"; then 
-		clear; echo; echo
-		echo " --> ⛔ ERROR: xxd is missing and is required for HEX patches."
-		echo; echo; read -p " --> Do you want to install xxd? This requires sudo privileges. (y/n) > " INSTALL_XXD
-		echo; echo
-		if [ "$INSTALL_XXD" = "y" ]; then
-			echo " --> Installing xxd..."
-			sudo apt update
-			sudo apt install -y xxd
-			if ! dpkg-query -W -f='${Status}' xxd | grep "ok installed"; then
-				echo " --> ⛔ ERROR: Failed to install xxd. Please try installing it manually."
-				exit 0;
+	check_and_install() {
+		PACKAGE_NAME="$1"
+		PACKAGE_DESC="$2"
+
+		if  dpkg-query -W -f='${Status}' "$PACKAGE_NAME" 2>/dev/null | grep -q "ok installed"; then 
+			clear; echo; echo
+			echo " --> ⛔ ERROR: $PACKAGE_NAME is missing and is required for $PACKAGE_DESC."
+			echo
+			read -p " --> Do you want to install $PACKAGE_NAME? This requires sudo privileges. (y/n) > " USER_REPLY
+			echo
+			if [ "$USER_REPLY" = "y" ]; then
+				echo " --> Installing $PACKAGE_NAME..."
+				sudo apt update
+				sudo apt install -y "$PACKAGE_NAME"
+				if ! dpkg-query -W -f='${Status}' "$PACKAGE_NAME" 2>/dev/null | grep -q "ok installed"; then
+					echo " --> ⛔ ERROR: Failed to install $PACKAGE_NAME. Please try installing it manually."
+					exit 0
+				else
+					echo " --> ✅ SUCCESS: $PACKAGE_NAME installed successfully. Now run the script again."
+					exit 0
+				fi
 			else
-				echo " --> ✅ SUCCESS: xxd installed succesfully. Now run the script again"
-				exit 0;		
+				echo " --> ⚠️ WARNING: Please install $PACKAGE_NAME with:"
+				echo "     sudo apt install $PACKAGE_NAME"
+				echo "     and try again."
+				exit 0
 			fi
-		else
-			echo " --> ⚠️ WARNING: Please install xxd with sudo apt install xxd and try again."
-			exit 0;
 		fi
-	fi
-	
-	if ! dpkg-query -W -f='${Status}' unzip  | grep "ok installed"; then 
-		clear; echo; echo
-		echo " --> ⛔ ERROR: unzip is missing and is required for extracting library from apex image."
-		echo; echo; read -p " --> Do you want to install unzip? This requires sudo privileges. (y/n) > " INSTALL_UNZIP
-		echo; echo
-		if [ "$INSTALL_UNZIP" = "y" ]; then
-			echo " --> Installing unzip..."
-			sudo apt update
-			sudo apt install -y unzip
-			if ! dpkg-query -W -f='${Status}' unzip | grep "ok installed"; then
-				echo " --> ⛔ ERROR: Failed to install unzip. Please try installing it manually."
-				exit 0;
-			else
-				echo " --> ✅ SUCCESS: unzip installed succesfully. Now run the script again"
-				exit 0;		
-			fi
-		else
-			echo " --> ⚠️ WARNING: Please install unzip with sudo apt install unzip and try again."
-			exit 0;
-		fi
-	fi
+	}
+
+	declare -A packages=(
+		[xxd]="HEX patches"
+		[unzip]="extracting library from apex image"
+	)
+
+	for pkg in "${!packages[@]}"; do
+		check_and_install "$pkg" "${packages[$pkg]}"
+	done
 
 	if ! [ -e "in" ] || ! [ -e "lib_stock" ] || ! [ -e "lib_patched" ]; then
 		clear; sleep 0.5

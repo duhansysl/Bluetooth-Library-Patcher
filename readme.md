@@ -14,4 +14,4 @@ His TWRP patcher is here : https://github.com/3arthur6/BluetoothLibraryPatcher
 * OneUI 5/6/7 needs either "libbluetooth_jni.so" or "com.android.btservices.apex" so get them from your ROM base and add them into "in" folder
 * Patched lib will be copied to "lib_patched" folder and stock one will be copied to "lib_stock" folder. 
 
-* Last updated: 20.04.2025 - 13:34
+* Last updated: 03.06.2025 - 23:57

@@ -1,7 +1,7 @@
 
 ### Originally coded and written By @duhansysl
 
-Big thanks to @3arthur6 who did the TWRP patches for it. I got the right HEX values from his project.
+Thanks to @3arthur6 for legacy OneUI HEX values. I got them from his project.
 His TWRP patcher is here : https://github.com/3arthur6/BluetoothLibraryPatcher
 
  

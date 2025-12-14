@@ -3,7 +3,7 @@
 # ======================================================================
 #
 #  Duhan's Kitchen V3.0
-#  Bluetooth Library Patcher V3.5
+#  Bluetooth Library Patcher V3.6
 #
 #  Copyright (C) 2025 duhansysl
 #  Copyright (C) 2024 3arthur6
@@ -123,7 +123,7 @@ p_8=("9775392a000014360080" "9777392a000014360080" "3a00902a000014330080" "f6713
 	echo 
 	echo "                               Welcome to Duhan's Kitchen                                   "
 	echo "        --------------------------------------------------------------------------          "
-	echo "                  Bluetooth Library Patcher V3.5 - OneUI 1/2/3/4/5/6/7/8                    "
+	echo "                  Bluetooth Library Patcher V3.6 - OneUI 1/2/3/4/5/6/7/8                    "
 	echo
 	echo "============================================================================================"
 	sleep 0.5

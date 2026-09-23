@@ -125,7 +125,7 @@ p_9=("5652392a000014330080")
 	echo 
 	echo "                               Welcome to Duhan's Kitchen                                   "
 	echo "        --------------------------------------------------------------------------          "
-	echo "                  Bluetooth Library Patcher V3.7 - OneUI 1/2/3/4/5/6/7/8                    "
+	echo "                Bluetooth Library Patcher V3.8 - OneUI 1/2/3/4/5/6/7/8/9                    "
 	echo
 	echo "============================================================================================"
 	sleep 0.5

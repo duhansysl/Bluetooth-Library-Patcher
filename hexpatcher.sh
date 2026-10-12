@@ -58,34 +58,16 @@ p_9=("5652392a000014330080")
 # ================================== Creating Workarea =================================================
 # ======================================================================================================
 
-	check_and_install() {
+	check_package() {
 		PACKAGE_NAME="$1"
 		PACKAGE_DESC="$2"
 
-		if ! dpkg-query -W -f='${Status}' "$PACKAGE_NAME" 2>/dev/null | grep -q "ok installed"; then 
+		if ! command -v "$PACKAGE_NAME" >/dev/null 2>&1; then 
 			clear; echo; echo
 			echo " --> ⛔ ERROR: $PACKAGE_NAME is missing and is required for $PACKAGE_DESC."
+			echo " --> Please install $PACKAGE_NAME and try again."
 			echo
-			read -p " --> Do you want to install $PACKAGE_NAME? This requires sudo privileges. (y/n) > " USER_REPLY
-			echo
-			if [ "$USER_REPLY" = "y" ]; then
-				echo " --> Installing $PACKAGE_NAME..."
-				sudo apt update
-				sudo apt install -y "$PACKAGE_NAME"
-				if ! dpkg-query -W -f='${Status}' "$PACKAGE_NAME" 2>/dev/null | grep -q "ok installed"; then
-					echo " --> ⛔ ERROR: Failed to install $PACKAGE_NAME. Please try installing it manually."
-					exit 0
-				else
-					echo " --> ✅ SUCCESS: $PACKAGE_NAME installed successfully. Now run the script again."
-					exit 0
-				fi
-			else
-				echo " --> ⚠️ WARNING: Please install $PACKAGE_NAME with:"
-				echo "     sudo apt install $PACKAGE_NAME"
-				echo "     and try again."
-				echo
-				exit 0
-			fi
+			exit 1
 		fi
 	}
 
@@ -95,7 +77,7 @@ p_9=("5652392a000014330080")
 	)
 
 	for pkg in "${!packages[@]}"; do
-		check_and_install "$pkg" "${packages[$pkg]}"
+		check_package "$pkg" "${packages[$pkg]}"
 	done
 
 	if ! [ -e "in" ] || ! [ -e "lib_stock" ] || ! [ -e "lib_patched" ]; then
